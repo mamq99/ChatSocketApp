@@ -5,12 +5,12 @@ import select
 import sys
 
 class ChatServer:
-    def __init__(self, host='', port=50007):
+    def __init__(self, host='', port=5007):
         self.HOST = host
         self.PORT = port
         self.MSG_BYTES = 2048
         self.clients = {}  # {socket: username}
-        self.timeoutDuration = 10
+        self.timeoutDuration = 15
         self.threadTimeout = 3.0
         self.client_backlog_queue = 5
         self.server_running = threading.Event()
@@ -128,7 +128,8 @@ class ChatServer:
             return
         print(f"[DEBUG] Entering the message loop for {username}@{addr}")
         return username
-    
+
+
     def handle_messages(self, client, username, addr):
         while self.server_running.is_set():
                 try:
@@ -169,7 +170,6 @@ class ChatServer:
                         
         self.close_client_socket(client, context="HANDLE_CLIENT", address=addr, user=username)
 
-
     def handle_client(self, client, addr):
         print(f"[CONNECT] Connected to: {addr}")
 
@@ -184,8 +184,6 @@ class ChatServer:
         finally:
             self.cleanup_client
             
-            
-
     def broadcast(self, message, sender):
         """Broadcast message to all clients except sender"""
 
@@ -226,7 +224,6 @@ class ChatServer:
 
         self.close_client_socket(client,context="REMOVE_DEAD_CLIENT", user=username)
                     
-
     def start(self):
         """Start the chat server"""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as self.sock:
@@ -285,9 +282,6 @@ class ChatServer:
         except Exception as e:
             if context:
                 print(f"[{context}] Error closing socket: {e}")
-
-
-    
 
     def server_cleanup(self):
         """Clean up threads and resources"""

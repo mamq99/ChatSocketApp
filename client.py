@@ -5,7 +5,7 @@ from prompt_toolkit import PromptSession, prompt
 from prompt_toolkit.patch_stdout import patch_stdout
 
 HOST = '127.0.0.1'
-PORT = 50007
+PORT = 5007
 MSG_BYTES = 2048
 
 class ChatClient:
